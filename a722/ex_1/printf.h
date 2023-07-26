@@ -12,17 +12,20 @@ void safe_printf(const std::string& fmt, T first, Ts... args)
 
     std::string word;
     
-    while (ss >> word) {
-        if constexpr (word[0] == '%') {
-            word = first;
-            std::cout << word << " ";
-            safe_printf(fmt, args...);
-            return;
-        }
-        std::cout << word << " ";
+    if constexpr (sizeof...(args) > 0) {
 
-        
+        while (ss >> word) {
+            if (word[0] == '%') {
+                word = first;
+                std::cout << word << " ";
+                safe_printf(fmt, args...);
+            } else {
+                std::cout << word << " ";
+            }
+        }
     }
+
+    std::cout << word << " ";
 }
 
 
