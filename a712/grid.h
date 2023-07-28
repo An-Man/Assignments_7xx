@@ -6,8 +6,8 @@
 
 struct Size
 {
-    int width {};
-    int height {};
+    std::size_t width {};
+    std::size_t height {};
 };
 
 struct Position
@@ -29,11 +29,11 @@ class Grid
         using difference_type = typename storage_type::difference_type;
         using size_type = typename storage_type::size_type;
         
-        Grid<T>() {
-            data = {2,4,6,3,7,4,1,8,9};
-            size.height = 3;
-            size.width = 3;
-        }
+        Grid<T>() : data {2,4,6,3,7,4,1,8,9}, size {3,3} {}
+
+        Grid<T>(std::size_t input_size) : 
+            data(input_size*input_size),
+            size {input_size, input_size} {}
 
         void print_data() {
             for (int i = 0; i < (size.height*size.width); ++i) {
@@ -53,13 +53,27 @@ class Grid
             return data[row * size.height + col];
         }
 
+        iterator begin() {
+            return data.begin();
+        }
+
+        const_iterator cbegin() {
+            return data.cbegin();
+        }
+
+        iterator end() {
+            return data.end();
+        }
+
+        const_iterator cend() {
+            return data.cend();
+        }
+
     private:
 
         storage_type data;
         Size size {};
-        Position pos {};
-
-               
+        Position pos {};    
 };
 
 
